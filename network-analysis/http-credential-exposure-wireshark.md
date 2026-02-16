@@ -29,7 +29,7 @@ transport-layer encryption, sensitive fields are transmitted in cleartext.
 ## Evidence of Plaintext Data Exposure
 
 ### 1. Captured HTTP POST Request
-![Captured HTTP POST request showing form submission](../screenshots/http-post-userinfo.png)
+![Captured HTTP POST request showing form submission](../screenshots/http-plaintext-credentials.png)
 
 The screenshot shows an HTTP POST request to `/userinfo.php`
 using the `application/x-www-form-urlencoded` content type.
@@ -37,7 +37,7 @@ using the `application/x-www-form-urlencoded` content type.
 ---
 
 ### 2. Extracted Sensitive Fields
-![Plaintext credentials visible in Wireshark](../screenshots/http-plaintext-form-data.png)
+![Plaintext credentials visible in Wireshark](../screenshots/http-sensitive-form-data.png)
 
 Wireshark reveals multiple sensitive fields directly in plaintext,
 including:
@@ -52,7 +52,7 @@ This data can be read without decryption or special privileges.
 ---
 
 ### 3. Application-Level Confirmation
-![Web application form corresponding to captured traffic](../screenshots/http-userinfo-form.png)
+![Web application form corresponding to captured traffic](../screenshots/http-form-application.png)
 
 The captured traffic directly correlates with the data entered
 into the web application form, confirming real-world exposure.
