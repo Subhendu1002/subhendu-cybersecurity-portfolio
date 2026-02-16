@@ -1,87 +1,83 @@
-# HTTP Credential Exposure Analysis (Wireshark)
+# HTTP Plaintext Credential Exposure Analysis
 
 ## Overview
+This analysis demonstrates how sensitive user information is transmitted
+in plaintext over HTTP, making it vulnerable to interception by any
+attacker with network access.
 
-This case study demonstrates how sensitive user information can be
-exposed on the network when web applications transmit data over
-unencrypted HTTP.
-
-Using Wireshark, live network traffic was captured and analyzed to
-observe HTTP POST requests carrying credentials and personally
-identifiable information (PII) in plaintext.
-
-All analysis was conducted in a controlled lab environment for
+The assessment was conducted in a controlled lab environment for
 educational and defensive security purposes only.
 
 ---
 
 ## Environment
-
-- Network monitoring performed on a local interface
-- Traffic captured using Wireshark
-- Web application communicating over HTTP (port 80)
-- No TLS/HTTPS encryption enabled
-
----
-
-## Observations
-
-During packet inspection, multiple HTTP POST requests were identified
-containing form-submitted data.
-
-The captured traffic revealed:
-
-- Usernames transmitted in plaintext
-- Password values visible in HTTP payloads
-- Additional sensitive fields such as email addresses and phone numbers
-- No encryption or transport-layer protection
-
-Because HTTP does not provide confidentiality, any party with network
-visibility could intercept and read this information.
+- Tool Used: Wireshark
+- Interface: eth0
+- Protocol Analyzed: HTTP
+- Target Application: testphp.vulnweb.com
+- Network Type: Local lab network
 
 ---
 
-## Security Impact
-
-The exposure of credentials and PII over plaintext HTTP introduces
-severe security risks, including:
-
-- Credential theft via packet sniffing
-- Account compromise and unauthorized access
-- Privacy violations and potential data leakage
-- Non-compliance with basic security and data protection standards
-
-Attackers do not require exploitation tools in this scenario; passive
-network monitoring alone is sufficient.
+## Attack Scenario
+An attacker positioned on the same network can capture HTTP traffic
+and inspect unencrypted POST requests. Since HTTP does not provide
+transport-layer encryption, sensitive fields are transmitted in cleartext.
 
 ---
 
-## Defensive Perspective
+## Evidence of Plaintext Data Exposure
 
-From a defensive and SOC standpoint, this issue highlights:
+### 1. Captured HTTP POST Request
+![Captured HTTP POST request showing form submission](../screenshots/http-post-userinfo.png)
 
-- The importance of enforcing HTTPS across all authentication endpoints
-- The need for network monitoring to detect insecure protocols
-- Risks introduced by legacy or misconfigured web services
-- The value of traffic inspection in identifying policy violations
+The screenshot shows an HTTP POST request to `/userinfo.php`
+using the `application/x-www-form-urlencoded` content type.
 
 ---
 
-## Recommendations
+### 2. Extracted Sensitive Fields
+![Plaintext credentials visible in Wireshark](../screenshots/http-plaintext-form-data.png)
 
-- Enforce HTTPS using TLS for all web traffic
-- Redirect all HTTP requests to HTTPS
-- Implement HSTS to prevent protocol downgrade
-- Monitor network traffic for unencrypted credential transmission
-- Conduct regular security assessments of web applications
+Wireshark reveals multiple sensitive fields directly in plaintext,
+including:
+- Username
+- Email address
+- Phone number
+- Credit card number
+- Physical address
+
+This data can be read without decryption or special privileges.
+
+---
+
+### 3. Application-Level Confirmation
+![Web application form corresponding to captured traffic](../screenshots/http-userinfo-form.png)
+
+The captured traffic directly correlates with the data entered
+into the web application form, confirming real-world exposure.
+
+---
+
+## Impact Assessment
+- Exposure of personally identifiable information (PII)
+- Risk of credential theft and identity fraud
+- Violation of secure transmission standards
+- Non-compliance with security best practices (e.g., OWASP A02:2021)
+
+---
+
+## Mitigation Recommendations
+- Enforce HTTPS using TLS encryption
+- Redirect all HTTP traffic to HTTPS
+- Implement HSTS headers
+- Avoid transmitting sensitive data without encryption
+- Regularly monitor network traffic for plaintext protocols
 
 ---
 
 ## Conclusion
-
-This analysis demonstrates how insecure transport protocols can expose
-sensitive data without active exploitation.
-
-Proper encryption, monitoring, and secure configuration are critical to
-reducing the risk of credential compromise in modern environments.
-
+This analysis highlights the critical risk of transmitting sensitive
+information over HTTP. Without encryption, attackers can easily
+intercept and misuse user data, emphasizing the necessity of HTTPS
+for all authentication and data submission endpoints.
