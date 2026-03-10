@@ -22,9 +22,26 @@ The work here reflects how I approach security problems:
 - TCP/IP, HTTP/HTTPS, DNS
 
 ## How to Navigate
-Each folder represents a specific security domain.
-Inside each folder, you will find structured case studies and reports
-documenting objectives, methodology, findings, risk analysis, and remediation.
+### Repository Structure
+'''
+network-analysis/
+    Wireshark traffic analysis case study
+
+exploitation-analysis/
+    Telnet login vulnerability case study
+
+reconnaissance/
+    Service discovery and exposure analysis
+
+social-engineering/
+    Human-factor security awareness resources
+
+reports/
+    Structured security findings and summaries
+
+screenshots/
+    Evidence supporting analysis reports
+'''    
 
 ## Practice Platforms
 
