@@ -23,7 +23,8 @@ The work here reflects how I approach security problems:
 
 ## How to Navigate
 ### Repository Structure
-'''
+```
+
 network-analysis/
     Wireshark traffic analysis case study
 
@@ -41,7 +42,8 @@ reports/
 
 screenshots/
     Evidence supporting analysis reports
-'''    
+ 
+```
 
 ## Practice Platforms
 
